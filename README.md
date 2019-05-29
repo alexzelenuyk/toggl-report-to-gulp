@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/alexzelenuyk/ns-api-event-client-php.svg?style=svg)](https://circleci.com/gh/alexzelenuyk/ns-api-event-client-php)
+
 # Script to generate pdf report for GULP ([Leistungsnachweis](https://www.gulp.de/gutschriftverfahren/Merkblatt-Leistungsnachweis.pdf))
 
 *Motivation*: Those, who work together with [Gulp](https://www.gulp.de/), need to provide report at the end of the month with performance records.
