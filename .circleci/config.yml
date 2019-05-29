@@ -28,11 +28,8 @@ jobs: # A basic unit of work in a run
             - "/usr/local/lib/python3.7/site-packages"
       - run:
           command: |
-            ./venv/bin/flake8
-
-      - run:
-          command: |
-            ./venv/bin/pytest test
+            .venv/bin/flake8
+            .venv/bin/pytest test
 
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: test-results
