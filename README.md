@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/alexzelenuyk/ns-api-event-client-php.svg?style=svg)](https://circleci.com/gh/alexzelenuyk/ns-api-event-client-php)
+[![CircleCI](https://circleci.com/gh/alexzelenuyk/toggl-report-to-gulp.svg?style=svg)](https://circleci.com/gh/alexzelenuyk/toggl-report-to-gulp)
 
 # Script to generate pdf report for GULP ([Leistungsnachweis](https://www.gulp.de/gutschriftverfahren/Merkblatt-Leistungsnachweis.pdf))
 
