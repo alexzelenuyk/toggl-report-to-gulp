@@ -12,11 +12,11 @@ ReportEntry = namedtuple('ReportEntry', 'start end description')
 class GulpPdf:
 
     FONT = "Arial"
-    DEFAULT_HEADER_FONT_SIZE = 18
-    DEFAULT_FONT_SIZE = 12
+    DEFAULT_HEADER_FONT_SIZE = 14
+    DEFAULT_FONT_SIZE = 8
     REPORT_NAME_TEMPLATE = 'Leistungsnachweis_{}.pdf'
     REPORT_HEAD = ['Datum', 'Zeit', 'Leistungsbeschreibung', 'Gesamt']
-    SPACING = 2
+    SPACING = 1.5
 
     def __init__(self, first_name: str, project_number: str, client_name: str, order_no: str):
         self.name = first_name
@@ -40,7 +40,7 @@ class GulpPdf:
 
     def __head(self, pdf: FPDF, month: str):
         pdf.set_font(GulpPdf.FONT, "B", GulpPdf.DEFAULT_HEADER_FONT_SIZE)
-        pdf.write(16, "Leistungsnachweis\n")
+        pdf.write(14, "Leistungsnachweis\n")
         pdf.set_font(GulpPdf.FONT, "B", GulpPdf.DEFAULT_FONT_SIZE)
 
         data = [
@@ -58,7 +58,7 @@ class GulpPdf:
             pdf.cell(pdf.w * 0.2, height, txt=row[1], border="B")
             pdf.ln(height)
 
-        pdf.write(16, "\n")
+        pdf.write(8, "\n")
 
         return pdf
 
@@ -71,7 +71,7 @@ class GulpPdf:
         rows.append(GulpPdf.REPORT_HEAD)
 
         for row in reversed(rows):
-            splits = split_string(row[2], 50)
+            splits = split_string(row[2], 70)
             height = default_height * len(splits)
 
             pdf.cell(pdf.w * 0.12, height, txt=row[0], border=1)
@@ -112,9 +112,9 @@ class GulpPdf:
     def __footer(self, pdf: FPDF):
         h = self.pdf_height(pdf)
 
-        pdf.ln(h * 2)
+        pdf.ln(h * 3)
         pdf.cell(pdf.w * 0.1, h, txt="Leistung erbracht:", border=0)
-        pdf.ln(h * 2)
+        pdf.ln(h * 3)
 
         w = pdf.w * 0.15
         pdf.cell(w, h, txt="Ort", border="T", align="L")
@@ -123,7 +123,7 @@ class GulpPdf:
         pdf.cell(w, h, txt="Ort", border="T", align="L")
         pdf.cell(w, h, txt="Datum", border="T", align="R")
 
-        pdf.ln(h * 2)
+        pdf.ln(h * 3)
 
         pdf.cell(w * 2, h, txt="Unterschrift Leistungserbringer", border="T")
         pdf.cell(w, h, txt="", border=0)
