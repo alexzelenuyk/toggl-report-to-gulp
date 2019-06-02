@@ -95,7 +95,7 @@ class GulpPdf:
         total = self.__count_total(details)
         hours = total / 3600
         minutes = int((total % 3600) / 60)
-        display_minutes = minutes if minutes < 9 else f"0{minutes}"
+        display_minutes = f"0{minutes}" if minutes < 9 else minutes
         rows = [
             ["Summe Stunden und Minuten", f"{int(hours)}:{display_minutes}"],
             ["Summe Stunden und Minuten dezimal", f"{round(hours, 2)}"],
