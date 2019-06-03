@@ -1,3 +1,7 @@
+import iso8601
+import datetime
+
+
 def split_string(str: str, limit: int, sep=' '):
     words = str.split()
     if max(map(len, words)) > limit:
@@ -12,3 +16,20 @@ def split_string(str: str, limit: int, sep=' '):
     if part:
         res.append(part)
     return res
+
+
+def seconds_to_hours_minutes(seconds: int):
+    minutes = int((seconds % 3600) / 60)
+    display_minutes = f"0{minutes}" if minutes < 9 else minutes
+    hours = seconds / 3600
+
+    return f"{int(hours)}:{display_minutes}"
+
+
+def seconds_to_hours_decimal(seconds: int):
+    hours = seconds / 3600
+    return round(hours, 2)
+
+
+def iso8601_to_date(date: datetime):
+    return iso8601.parse_date(date.__str__()).strftime('%Y-%m-%d')

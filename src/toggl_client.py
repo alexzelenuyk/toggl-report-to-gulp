@@ -2,7 +2,12 @@ import requests
 import datetime
 import json
 import calendar
+import iso8601
+from collections import namedtuple
 from requests.auth import HTTPBasicAuth
+
+
+TogglEntry = namedtuple('ReportEntry', 'start end description')
 
 
 class TogglClient:
@@ -46,7 +51,14 @@ class TogglClient:
             if response.get('total_count') == len(report_entries):
                 break
 
-        return report_entries
+        return list(map(
+                lambda e: TogglEntry(
+                    iso8601.parse_date(e['start']),
+                    iso8601.parse_date(e['end']),
+                    e['description'],
+                ),
+                report_entries
+            ))
 
     def __get_detailed_per_page(self, workspace_id: int, month: int, page: int):
         now = datetime.datetime.now()
