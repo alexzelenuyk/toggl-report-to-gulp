@@ -1,12 +1,8 @@
 from fpdf import FPDF
-from collections import namedtuple
 from typing import List
 from src.utils import split_string
-from functools import reduce
+from src.report_summary import DayGroupedEntry, Summary
 import datetime
-
-
-ReportEntry = namedtuple('ReportEntry', 'start end description')
 
 
 class GulpPdf:
@@ -15,7 +11,7 @@ class GulpPdf:
     DEFAULT_HEADER_FONT_SIZE = 14
     DEFAULT_FONT_SIZE = 8
     REPORT_NAME_TEMPLATE = 'Leistungsnachweis_{}.pdf'
-    REPORT_HEAD = ['Datum', 'Zeit', 'Leistungsbeschreibung', 'Gesamt']
+    REPORT_HEAD = ['Datum', 'Start', 'Ende', 'Pause', 'Leistungsbeschreibung', 'Gesamt']
     SPACING = 1.5
 
     def __init__(self, first_name: str, project_number: str, client_name: str, order_no: str):
@@ -24,14 +20,13 @@ class GulpPdf:
         self.client_name = client_name
         self.order_no = order_no
 
-    def generate(self, month: str, details: List[ReportEntry]):
+    def generate(self, month: str, summary: Summary):
         document = GulpPdf.REPORT_NAME_TEMPLATE . format(month)
         pdf = self.__document()
-        details = list(details)
 
         pdf = self.__head(pdf, month)
-        pdf = self.__table(pdf, details)
-        pdf = self.__summary(pdf, details)
+        pdf = self.__table(pdf, summary.entries)
+        pdf = self.__summary(pdf, summary.total_time, summary.total_summary)
         pdf = self.__footer(pdf)
 
         pdf.output(document)
@@ -51,7 +46,7 @@ class GulpPdf:
             ["Projektvertragsnummer:", self.project_number]
         ]
 
-        height = self.pdf_height(pdf)
+        height = self.__pdf_height(pdf)
 
         for row in data:
             pdf.cell(pdf.w * 0.3, height, txt=row[0], border=0)
@@ -62,55 +57,57 @@ class GulpPdf:
 
         return pdf
 
-    def __table(self, pdf: FPDF, details: List[ReportEntry]):
+    def __table(self, pdf: FPDF, details: List[DayGroupedEntry]):
         pdf.set_font(GulpPdf.FONT, size=GulpPdf.DEFAULT_FONT_SIZE)
+        self.__row(pdf, GulpPdf.REPORT_HEAD)
 
-        default_height = self.pdf_height(pdf)
-
-        rows = list(self.__map_entries_to_row(details))
-        rows.append(GulpPdf.REPORT_HEAD)
-
-        for row in reversed(rows):
-            splits = split_string(row[2], 70)
-            height = default_height * len(splits)
-
-            pdf.cell(pdf.w * 0.12, height, txt=row[0], border=1)
-            pdf.cell(pdf.w * 0.15, height, txt=row[1], border=1)
-            desc_w = pdf.w * 0.5
-            if len(splits) > 1:
-                current_x = pdf.get_x()
-                current_y = pdf.get_y()
-                pdf.multi_cell(desc_w, default_height, txt=row[2], border=1)
-                pdf.set_xy(current_x + desc_w, current_y)
-            else:
-                pdf.cell(desc_w, height, txt=row[2], border=1)
-            pdf.cell(pdf.w * 0.1, height, txt=row[3], border=1)
-
-            pdf.ln(height)
+        for row in reversed(list(details)):
+            row[1] = row[1].strftime('%H:%M:%S')
+            row[2] = row[2].strftime('%H:%M:%S')
+            self.__row(pdf, row)
 
         return pdf
 
-    def __summary(self, pdf: FPDF, details: List[ReportEntry]):
-        h = self.pdf_height(pdf)
-        total = self.__count_total(details)
-        hours = total / 3600
-        minutes = int((total % 3600) / 60)
-        display_minutes = f"0{minutes}" if minutes < 9 else minutes
+    def __row(self, pdf: FPDF, row: DayGroupedEntry):
+        default_height = self.__pdf_height(pdf)
+
+        splits = split_string(row[4], 100)
+        height = default_height * len(splits)
+
+        pdf.cell(pdf.w * 0.08, height, txt=row[0], border=1)
+        pdf.cell(pdf.w * 0.07, height, txt=row[1].__str__(), border=1)
+        pdf.cell(pdf.w * 0.07, height, txt=row[2].__str__(), border=1)
+        pdf.cell(pdf.w * 0.06, height, txt=row[3].__str__(), border=1)
+        desc_w = pdf.w * 0.57
+        if len(splits) > 1:
+            current_x = pdf.get_x()
+            current_y = pdf.get_y()
+            pdf.multi_cell(desc_w, default_height, txt=row[4], border=1)
+            pdf.set_xy(current_x + desc_w, current_y)
+        else:
+            pdf.cell(desc_w, height, txt=row[4], border=1)
+        pdf.cell(pdf.w * 0.06, height, txt=row[5].__str__(), border=1)
+
+        pdf.ln(height)
+
+    def __summary(self, pdf: FPDF, total_time: str, total_decimal: float):
+        h = self.__pdf_height(pdf)
+
         rows = [
-            ["Summe Stunden und Minuten", f"{int(hours)}:{display_minutes}"],
-            ["Summe Stunden und Minuten dezimal", f"{round(hours, 2)}"],
+            ["Summe Stunden und Minuten", total_time],
+            ["Summe Stunden und Minuten dezimal", total_decimal],
         ]
 
         for row in rows:
-            pdf.cell(pdf.w * 0.27, h, txt="", border=0)
-            pdf.cell(pdf.w * 0.5, h, txt=row[0], border=0, align="R")
-            pdf.cell(pdf.w * 0.1, h, txt=row[1], border=1)
+            pdf.cell(pdf.w * 0.2, h, txt="", border=0)
+            pdf.cell(pdf.w * 0.65, h, txt=row[0], border=0, align="R")
+            pdf.cell(pdf.w * 0.06, h, txt=row[1].__str__(), border=1)
             pdf.ln(h)
 
         return pdf
 
     def __footer(self, pdf: FPDF):
-        h = self.pdf_height(pdf)
+        h = self.__pdf_height(pdf)
 
         pdf.ln(h * 3)
         pdf.cell(pdf.w * 0.1, h, txt="Leistung erbracht:", border=0)
@@ -132,26 +129,7 @@ class GulpPdf:
 
         return pdf
 
-    def __count_total(self, details: List[ReportEntry]):
-        deltas = map(
-            lambda e: (e.end - e.start).seconds,
-            details
-        )
-
-        return reduce(lambda a, b: a + b, deltas)
-
-    def __map_entries_to_row(self, details: List[ReportEntry]):
-        return map(
-            lambda e: [
-                e.start.strftime('%Y-%m-%d'),
-                f"{e.start.strftime('%H:%M')} - {e.end.strftime('%H:%M')}",
-                e.description,
-                (e.end - e.start).__str__()
-            ],
-            details
-        )
-
-    def pdf_height(self, pdf: FPDF):
+    def __pdf_height(self, pdf: FPDF):
         return pdf.font_size * GulpPdf.SPACING
 
     def __document(self):
