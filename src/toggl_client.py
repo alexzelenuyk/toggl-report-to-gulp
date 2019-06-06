@@ -12,15 +12,15 @@ TogglEntry = namedtuple('ReportEntry', 'start end description')
 
 class TogglClient:
 
-    BASE_URL = "https://www.toggl.com"
+    BASE_URL = 'https://www.toggl.com'
 
     def __init__(self, api_key):
         self.api_key = api_key
 
     def get_workspace_id(self, pattern: str):
         workspaces_request = requests.get(
-            self.url("/api/v8/workspaces"),
-            auth=HTTPBasicAuth(self.api_key, "api_token"),
+            self.url('/api/v8/workspaces'),
+            auth=HTTPBasicAuth(self.api_key, 'api_token'),
         )
 
         if not workspaces_request.ok:
