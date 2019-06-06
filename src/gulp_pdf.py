@@ -20,7 +20,7 @@ class GulpPdf:
         self.client_name = client_name
         self.order_no = order_no
 
-    def generate(self, month: str, summary: Summary):
+    def generate(self, month: str, summary: Summary, write=True):
         document = GulpPdf.REPORT_NAME_TEMPLATE . format(month)
         pdf = self.__document()
 
@@ -29,9 +29,11 @@ class GulpPdf:
         pdf = self.__summary(pdf, summary.total_time, summary.total_summary)
         pdf = self.__footer(pdf)
 
-        pdf.output(document)
+        dest = 'F' if write else 'S'
 
-        return document
+        result = pdf.output(document, dest)
+
+        return document if write else result
 
     def __head(self, pdf: FPDF, month: str):
         pdf.set_font(GulpPdf.FONT, "B", GulpPdf.DEFAULT_HEADER_FONT_SIZE)
