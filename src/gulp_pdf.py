@@ -37,7 +37,7 @@ class GulpPdf:
 
     def __head(self, pdf: FPDF, month: str):
         pdf.set_font(GulpPdf.FONT, "B", GulpPdf.DEFAULT_HEADER_FONT_SIZE)
-        pdf.write(14, "Leistungsnachweis\n")
+        pdf.write(GulpPdf.DEFAULT_HEADER_FONT_SIZE, "Leistungsnachweis\n")
         pdf.set_font(GulpPdf.FONT, "B", GulpPdf.DEFAULT_FONT_SIZE)
 
         data = [
@@ -73,7 +73,7 @@ class GulpPdf:
     def __row(self, pdf: FPDF, row: DayGroupedEntry):
         default_height = self.__pdf_height(pdf)
 
-        splits = split_string(row[4], 100)
+        splits = split_string(row[4], 85)
         height = default_height * len(splits)
 
         pdf.cell(pdf.w * 0.08, height, txt=row[0], border=1)
@@ -111,7 +111,6 @@ class GulpPdf:
     def __footer(self, pdf: FPDF):
         h = self.__pdf_height(pdf)
 
-        pdf.ln(h * 3)
         pdf.cell(pdf.w * 0.1, h, txt="Leistung erbracht:", border=0)
         pdf.ln(h * 3)
 
@@ -137,5 +136,6 @@ class GulpPdf:
     def __document(self):
         pdf = FPDF()
         pdf.add_page()
+        pdf.set_auto_page_break(False)
 
         return pdf
