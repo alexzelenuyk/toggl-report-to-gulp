@@ -73,7 +73,7 @@ class GulpPdf:
     def __row(self, pdf: FPDF, row: DayGroupedEntry):
         default_height = self.__pdf_height(pdf)
 
-        splits = split_string(row[4], 85)
+        splits = split_string(row[4], 90)
         height = default_height * len(splits)
 
         pdf.cell(pdf.w * 0.08, height, txt=row[0], border=1)
