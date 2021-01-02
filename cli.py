@@ -14,6 +14,11 @@ parser.add_argument('--month-number',
                     required=True,
                     type=int
                     )
+parser.add_argument('--year',
+                    help='Year',
+                    required=True,
+                    type=int
+                    )
 parser.add_argument('--name', help='You first and last name. Will be used in header', required=True, type=str)
 parser.add_argument('--project-number', help='Project number (PEV). Will be used in header', required=True, type=str)
 parser.add_argument('--client-name', help='Client name. Will be used in header', required=True, type=str)
@@ -21,6 +26,6 @@ parser.add_argument('--order-no', help='Order no (Bestellnummer). Will be used i
 args = parser.parse_args()
 
 report = Report(args.api_key, args.name, args.project_number, args.client_name, args.order_no)
-document_name = report.detailed(args.workspace, args.month_number)
+document_name = report.detailed(args.workspace, args.year, args.month_number)
 
 print(f"Finished! Report store in {document_name}")
