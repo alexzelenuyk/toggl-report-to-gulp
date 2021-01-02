@@ -18,6 +18,7 @@ run: build
 	--api-key $(api_key) \
 	--workspace "$(workspace)" \
 	--month-number $(month_number) \
+	--year $(year) \
 	--name "$(name)" \
 	--project-number "$(project_number)"  \
 	--client-name "$(client_name)"  \
