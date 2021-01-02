@@ -10,11 +10,11 @@ class TestGulpPdf(TestCase):
     @freeze_time("2019-01-01")
     def test_match_snapshot(self):
         gulp_pdf = GulpPdf(
-                'Max Mustermann',
-                'Project X',
-                'Muster GmbH',
-                '123456'
-            )
+            'Max Mustermann',
+            'Project X',
+            'Muster GmbH',
+            '123456'
+        )
 
         summary = Summary(
             [[
@@ -28,6 +28,6 @@ class TestGulpPdf(TestCase):
             '3:00',
             3.0
         )
-        pdf = gulp_pdf.generate('May', summary, write=False)
+        pdf = gulp_pdf.generate(2019, 'May', summary, write=False)
 
         self.assertMatchSnapshot(pdf.__str__())
