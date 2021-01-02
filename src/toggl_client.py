@@ -1,5 +1,4 @@
 import requests
-import datetime
 import json
 import calendar
 import iso8601
@@ -39,12 +38,12 @@ class TogglClient:
 
         return ws
 
-    def get_detailed_report(self, workspace_id: int, month: int):
+    def get_detailed_report(self, workspace_id: int, year: int, month: int):
         report_entries = []
         page = 1
 
         while True:
-            response = self.__get_detailed_per_page(workspace_id, month, page)
+            response = self.__get_detailed_per_page(workspace_id, year, month, page)
             report_entries += response.get('data')
             page += 1
 
@@ -52,22 +51,21 @@ class TogglClient:
                 break
 
         return list(map(
-                lambda e: TogglEntry(
+            lambda e: TogglEntry(
                     iso8601.parse_date(e['start']),
                     iso8601.parse_date(e['end']),
                     e['description'],
-                ),
-                report_entries
-            ))
+                    ),
+            report_entries
+        ))
 
-    def __get_detailed_per_page(self, workspace_id: int, month: int, page: int):
-        now = datetime.datetime.now()
-        day_range = calendar.monthrange(now.year, month)
+    def __get_detailed_per_page(self, workspace_id: int, year: int, month: int, page: int):
+        day_range = calendar.monthrange(year, month)
         params = {
             "page": page,
             "workspace_id": workspace_id,
-            "since": f"{now.year}-{month}-1",
-            "until": f"{now.year}-{month}-{day_range[1]}",
+            "since": f"{year}-{month}-1",
+            "until": f"{year}-{month}-{day_range[1]}",
             "user_agent": "https://github.com/alexzelenuyk/toggl-report-to-gulp",
         }
 

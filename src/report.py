@@ -13,11 +13,11 @@ class Report:
         self.client_name = client_name
         self.order_no = order_no
 
-    def detailed(self, workspace: str, month_number: int):
+    def detailed(self, workspace: str, year: int, month_number: int):
         client = TogglClient(self.api_key)
 
         workspace = client.get_workspace_id(workspace)
-        toggl_entries = client.get_detailed_report(workspace.get('id'), month_number)
+        toggl_entries = client.get_detailed_report(workspace.get('id'), year, month_number)
 
         summary = ReportSummary()
         summary = summary.aggregate(toggl_entries)

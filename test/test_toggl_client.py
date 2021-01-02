@@ -37,7 +37,7 @@ class TestTogglClient:
             status=200
         )
 
-        reports = TogglClient('123').get_detailed_report(1, 1)
+        reports = TogglClient('123').get_detailed_report(1, 2019, 1)
 
         assert len(reports) == 2
         assert reports[0].description == 'Task 1'
