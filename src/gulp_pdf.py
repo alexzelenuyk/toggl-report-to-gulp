@@ -2,7 +2,6 @@ from fpdf import FPDF
 from typing import List
 from src.utils import split_string
 from src.report_summary import DayGroupedEntry, Summary
-import datetime
 
 
 class GulpPdf:
@@ -20,11 +19,11 @@ class GulpPdf:
         self.client_name = client_name
         self.order_no = order_no
 
-    def generate(self, month: str, summary: Summary, write=True):
+    def generate(self, year: str, month: str, summary: Summary, write=True):
         document = GulpPdf.REPORT_NAME_TEMPLATE . format(month)
         pdf = self.__document()
 
-        pdf = self.__head(pdf, month)
+        pdf = self.__head(pdf, year, month)
         pdf = self.__table(pdf, summary.entries)
         pdf = self.__summary(pdf, summary.total_time, summary.total_summary)
         pdf = self.__footer(pdf)
@@ -35,13 +34,13 @@ class GulpPdf:
 
         return document if write else result
 
-    def __head(self, pdf: FPDF, month: str):
+    def __head(self, pdf: FPDF, year: str, month: str):
         pdf.set_font(GulpPdf.FONT, "B", GulpPdf.DEFAULT_HEADER_FONT_SIZE)
         pdf.write(GulpPdf.DEFAULT_HEADER_FONT_SIZE, "Leistungsnachweis\n")
         pdf.set_font(GulpPdf.FONT, "B", GulpPdf.DEFAULT_FONT_SIZE)
 
         data = [
-            ["Monat:", f"{month.capitalize()} {datetime.datetime.now().year}"],
+            ["Monat:", f"{month.capitalize()} {year}"],
             ["Auftraggeber Kunde:", self.client_name],
             ["Bestellnummer:", self.order_no],
             ["Leistungserbringer", self.name],
