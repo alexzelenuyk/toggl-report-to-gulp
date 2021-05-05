@@ -2,8 +2,8 @@ import iso8601
 import datetime
 
 
-def split_string(str: str, limit: int, sep=' '):
-    words = str.split()
+def split_string(string: str, limit: int, sep=' '):
+    words = string.split()
     if max(map(len, words)) > limit:
         raise ValueError("limit is too small")
     res, part, others = [], words[0], words[1:]
