@@ -9,6 +9,7 @@ pytest = "*"
 snapshottest = "*"
 freezegun = "*"
 responses = "*"
+twine = "*"
 
 [packages]
 requests = "*"
