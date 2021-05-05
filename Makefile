@@ -24,4 +24,13 @@ run: build
 	--client-name "$(client_name)"  \
 	--order-no $(order_no)
 
+verify-package: setup-package
+	twine check dist/*
+
+setup-package:
+	python setup.py sdist bdist_wheel
+
+publish: verify-package
+	twine upload dist/*
+
 .PHONY: lint test build run

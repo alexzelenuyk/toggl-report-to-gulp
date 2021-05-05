@@ -30,6 +30,10 @@ jobs: # A basic unit of work in a run
           command: |
             .venv/bin/flake8
             .venv/bin/pytest test
+      - run:
+          command: |
+            python setup.py sdist bdist_wheel
+            pipenv run twine check dist/*
 
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: test-results
