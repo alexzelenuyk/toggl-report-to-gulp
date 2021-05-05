@@ -31,6 +31,6 @@ setup-package:
 	python setup.py sdist bdist_wheel
 
 publish: verify-package
-	twine upload  dist/*
+	twine upload dist/*
 
 .PHONY: lint test build run
