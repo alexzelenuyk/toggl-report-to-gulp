@@ -15,7 +15,8 @@ twine = "*"
 requests = "*"
 iso8601 = "*"
 fpdf = "*"
+toggl-pdf-report = {editable = true, path = "."}
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
 fpdf = "1.7.2"

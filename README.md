@@ -18,7 +18,7 @@ Project use [Pipenv](https://docs.pipenv.org/en/latest/) as package manager.
 ## Create virtual environment
 
 ```bash
-> pipenv --python 3.7
+> pipenv --python 3.8
 ```
 
 ## Install dependencies
