@@ -1,7 +1,7 @@
 from fpdf import FPDF
 from typing import List
-from src.utils import split_string
-from src.report_summary import DayGroupedEntry, Summary
+from toggle_report_to_gulp.utils import split_string
+from toggle_report_to_gulp.report_summary import DayGroupedEntry, Summary
 
 
 class GulpPdf:

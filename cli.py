@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.7
 
 import argparse
-from src.report import Report
+from toggle_report_to_gulp.report import Report
 import locale
 
 locale.setlocale(locale.LC_ALL, 'de_DE')

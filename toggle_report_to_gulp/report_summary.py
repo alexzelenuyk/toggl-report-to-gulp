@@ -1,8 +1,8 @@
 from collections import namedtuple
 from typing import List
-from src.toggl_client import TogglEntry
+from toggle_report_to_gulp.toggl_client import TogglEntry
 from functools import reduce
-from src.utils import seconds_to_hours_minutes, seconds_to_hours_decimal, iso8601_to_date
+from toggle_report_to_gulp.utils import seconds_to_hours_minutes, seconds_to_hours_decimal, iso8601_to_date
 
 DayGroupedEntry = namedtuple('DayGroupedEntry', 'start end pause description total')
 

@@ -1,5 +1,5 @@
-from src.report_summary import ReportSummary
-from src.toggl_client import TogglEntry
+from toggle_report_to_gulp.report_summary import ReportSummary
+from toggle_report_to_gulp.toggl_client import TogglEntry
 import iso8601
 from datetime import datetime, timedelta, timezone
 

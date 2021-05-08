@@ -1,4 +1,4 @@
-from src.utils import split_string, seconds_to_hours_minutes, seconds_to_hours_decimal, iso8601_to_date
+from toggle_report_to_gulp.utils import split_string, seconds_to_hours_minutes, seconds_to_hours_decimal, iso8601_to_date
 import datetime
 
 

@@ -1,6 +1,6 @@
 from snapshottest import TestCase
-from src.report_summary import Summary
-from src.gulp_pdf import GulpPdf
+from toggle_report_to_gulp.report_summary import Summary
+from toggle_report_to_gulp.gulp_pdf import GulpPdf
 from datetime import datetime
 from freezegun import freeze_time
 

@@ -1,6 +1,6 @@
-from src.gulp_pdf import GulpPdf
-from src.toggl_client import TogglClient
-from src.report_summary import ReportSummary
+from toggle_report_to_gulp.gulp_pdf import GulpPdf
+from toggle_report_to_gulp.toggl_client import TogglClient
+from toggle_report_to_gulp.report_summary import ReportSummary
 import calendar
 
 

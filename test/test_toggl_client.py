@@ -1,4 +1,4 @@
-from src.toggl_client import TogglClient
+from toggle_report_to_gulp.toggl_client import TogglClient
 import responses
 from datetime import datetime, timedelta, timezone
 
