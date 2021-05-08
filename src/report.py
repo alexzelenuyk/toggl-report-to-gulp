@@ -13,7 +13,7 @@ class Report:
         self.client_name = client_name
         self.order_no = order_no
 
-    def detailed(self, workspace: str, year: int, month_number: int):
+    def detailed(self, workspace: str, year: int, month_number: int, write: bool = True):
         client = TogglClient(self.api_key)
 
         workspace = client.get_workspace_id(workspace)
@@ -26,7 +26,8 @@ class Report:
         document_name = gulp_report.generate(
             year,
             calendar.month_name[month_number],
-            summary
+            summary,
+            write
         )
 
         return document_name
