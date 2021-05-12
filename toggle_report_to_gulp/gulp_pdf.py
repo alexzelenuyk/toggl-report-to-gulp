@@ -32,7 +32,7 @@ class GulpPdf:
 
         result = pdf.output(document, dest)
 
-        return document if write else result
+        return document if write else result.encode('latin-1')
 
     def __head(self, pdf: FPDF, year: str, month: str):
         pdf.set_font(GulpPdf.FONT, "B", GulpPdf.DEFAULT_HEADER_FONT_SIZE)

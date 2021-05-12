@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3.8
 
 import argparse
 from toggle_report_to_gulp.report import Report
@@ -27,10 +27,15 @@ def main():
                         type=str)
     parser.add_argument('--client-name', help='Client name. Will be used in header', required=True, type=str)
     parser.add_argument('--order-no', help='Order no (Bestellnummer). Will be used in header', required=True, type=str)
+    parser.add_argument('--write',
+                        help='Write to file or to the output',
+                        choices=['true', 'false'],
+                        default='true'
+                        )
     args = parser.parse_args()
 
     report = Report(args.api_key, args.name, args.project_number, args.client_name, args.order_no)
-    document_name = report.detailed(args.workspace, args.year, args.month_number)
+    document_name = report.detailed(args.workspace, args.year, args.month_number, args.write == 'true')
 
     print(f"Finished! Report store in {document_name}")
 

@@ -1,0 +1,8 @@
+dist
+build
+.circleci
+.vscode
+venv
+.pytest_cache
+toggl_report.egg-info
+.gitignore
