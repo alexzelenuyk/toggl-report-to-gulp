@@ -3,7 +3,7 @@
 lint:
 	flake8
 
-test: clean
+test:
 	pytest
 
 clean:
