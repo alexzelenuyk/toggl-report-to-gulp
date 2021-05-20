@@ -22,7 +22,8 @@ run: build
 	--name "$(name)" \
 	--project-number "$(project_number)"  \
 	--client-name "$(client_name)"  \
-	--order-no $(order_no)
+	--order-no $(order_no)  \
+	--write $(write)
 
 verify-package: setup-package
 	twine check dist/*
