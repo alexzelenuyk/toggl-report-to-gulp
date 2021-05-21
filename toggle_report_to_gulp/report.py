@@ -24,7 +24,7 @@ class Report:
 
         gulp_report = GulpPdf(self.name, self.project_number, self.client_name, self.order_no)
         document_name = gulp_report.generate(
-            year,
+            str(year),
             calendar.month_name[month_number],
             summary,
             write
