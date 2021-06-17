@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="toggl-report",
-    version="1.0.6",
+    version="1.0.7",
     description="Generate PDF report from toggl",
     long_description=README,
     long_description_content_type="text/markdown",
