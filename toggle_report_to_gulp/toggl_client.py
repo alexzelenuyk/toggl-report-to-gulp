@@ -11,7 +11,7 @@ TogglEntry = namedtuple('ReportEntry', 'start end description')
 
 class TogglClient:
 
-    BASE_URL = 'https://www.toggl.com'
+    BASE_URL = 'https://api.track.toggl.com'
 
     def __init__(self, api_key):
         self.api_key = api_key
