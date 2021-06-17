@@ -10,7 +10,7 @@ class TestTogglClient:
         expected = {'name': 'expected_name'}
         responses.add(
             responses.GET,
-            'https://www.toggl.com/api/v8/workspaces',
+            'https://api.track.toggl.com/api/v8/workspaces',
             json=[expected],
             status=200
         )
@@ -25,14 +25,14 @@ class TestTogglClient:
         entry2 = {'start': '2019-01-02T13:00+00:00', 'end': '2019-01-02T18:00+00:00', 'description': 'Task 2'}
         responses.add(
             responses.GET,
-            'https://www.toggl.com/reports/api/v2/details',
+            'https://api.track.toggl.com/reports/api/v2/details',
             json={'total_count': 2, 'data': [entry1]},
             status=200
         )
 
         responses.add(
             responses.GET,
-            'https://www.toggl.com/reports/api/v2/details',
+            'https://api.track.toggl.com/reports/api/v2/details',
             json={'total_count': 2, 'data': [entry2]},
             status=200
         )
